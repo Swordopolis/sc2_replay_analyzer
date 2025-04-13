@@ -2,9 +2,10 @@ from dash import register_page, html, dcc, callback, Input, Output
 import base64
 from tools.functions import main  # Import main from app.py
 
-register_page(__name__, path="/", name="Game Analysis")
+register_page(__name__, path="/analyze", name="Game Analysis")
 
 layout = html.Div([
+    html.H2("Examine a Replay in detail"),
     dcc.Upload(
         id="upload-replay",
         children=html.Button("Select Replay File"),
