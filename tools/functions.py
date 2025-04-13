@@ -1,15 +1,39 @@
-# Custom dictionary for unit costs and event -> unit mapping
-from sc2_data import costs, morph_to_unit, unit_list, relevant_events
+import sc2reader
+import base64
+import io
 
-# Helper Functions
-def get_player_name(event):
-    """Extract player name from an event, return None if not found."""
-    if hasattr(event, 'player') and event.player and hasattr(event.player, 'name'):
-        return str(event.player.name)
-    elif hasattr(event, 'unit') and hasattr(event.unit, 'owner') and event.unit.owner and hasattr(event.unit.owner, 'name'):
-        return str(event.unit.owner.name)
-    return None
+from tools.sc2_data import costs, morph_to_unit, unit_list, relevant_events
+from tools.plots import (
+    plot_collection_rates,
+    plot_workers_active,
+    plot_income_advantage,
+    plot_resources_available,
+    plot_army_value,
+    plot_tech_value,
+    plot_supply,
+    plot_unit_supply
+)
 
+# Helper Functions that woroks with replays
+def main(replay_bytes):
+    player_data = process_replay(replay_bytes)
+    figures = {
+        "collection_rates": plot_collection_rates(player_data),
+        "workers_active": plot_workers_active(player_data),
+        "income_advantage": plot_income_advantage(player_data),
+        "resources_available": plot_resources_available(player_data),
+        "army_value": plot_army_value(player_data),
+        "tech_value": plot_tech_value(player_data),
+        "supply": plot_supply(player_data)
+    }
+    for i, player_name in enumerate(player_data.keys()):
+        figures[f"unit_supply_{i}"] = plot_unit_supply(player_data, player_name)
+    return figures
+
+def process_replay(replay_bytes):
+    replay = sc2reader.load_replay(io.BytesIO(replay_bytes))
+    player_data = initialize_data_structures(replay)
+    return parse_events(replay, player_data)
 
 # initialization 
 def initialize_data_structures(replay):
@@ -41,6 +65,17 @@ def initialize_data_structures(replay):
     # TODO: Placeholder for multi-player/team grouping logic
     # e.g., player_data["teams"] = {1: [player1, player2], 2: [player3, player4]}
     return player_data
+
+
+# Helper Functions that woroks with events
+def get_player_name(event):
+    """Extract player name from an event, return None if not found."""
+    if hasattr(event, 'player') and event.player and hasattr(event.player, 'name'):
+        return str(event.player.name)
+    elif hasattr(event, 'unit') and hasattr(event.unit, 'owner') and event.unit.owner and hasattr(event.unit.owner, 'name'):
+        return str(event.unit.owner.name)
+    return None
+
 
 # Handlers for different event types
 def handle_player_stats(event, player_data):
