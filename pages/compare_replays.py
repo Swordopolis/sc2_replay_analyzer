@@ -36,7 +36,6 @@ layout = html.Div([
         html.Label(id="comparison-label", children=""),
         dcc.Dropdown(id="player-2", placeholder="Select Player 2", style={"width": "300px"})
     ], style={"margin-bottom": "20px"}),
-    html.Button("Compare Players", id="compare-button", n_clicks=0),
     html.Div(id="compare-output", style={"max-height": "80vh", "overflow-y": "auto"}),
     dcc.Store(id="reference-replay-data"),
     dcc.Store(id="comparison-replay-data")
@@ -94,14 +93,25 @@ def update_player_2_dropdown(contents):
     [Output("compare-output", "children"),
      Output("reference-replay-data", "data"),
      Output("comparison-replay-data", "data")],
-    [Input("compare-button", "n_clicks"),
-     Input("reference-replay", "contents"),
+    [Input("reference-replay", "contents"),
      Input("comparison-replay", "contents"),
      Input("player-1", "value"),
      Input("player-2", "value")]
 )
-def compare_players(n_clicks, contents_1, contents_2, player_1, player_2):
-    if n_clicks == 0 or not all([contents_1, contents_2, player_1, player_2]):
+
+def compare_players(contents_1, contents_2, player_1, player_2):
+    from tools.plots import (
+        plot_collection_rates,
+        plot_workers_active,
+        plot_income_advantage,
+        plot_resources_available,
+        plot_army_value,
+        plot_tech_value,
+        plot_supply,
+        plot_unit_supply
+    )
+
+    if not all([contents_1, contents_2, player_1, player_2]):
         return html.Div("Upload both replays and select players to compare."), None, None
 
     try:
@@ -129,7 +139,31 @@ def compare_players(n_clicks, contents_1, contents_2, player_1, player_2):
             tagged_player_2: player_data_2[player_2]
         }
 
-        # Store the full player data for potential future use
-        return html.Div("Comparison data prepared, ready for graphing."), player_data_1, player_data_2
+        # Generate comparison graphs
+        figures = {
+            "collection_rates": plot_collection_rates(compare_data),
+            "workers_active": plot_workers_active(compare_data),
+            "income_advantage": plot_income_advantage(compare_data),
+            "resources_available": plot_resources_available(compare_data),
+            "army_value": plot_army_value(compare_data),
+            "tech_value": plot_tech_value(compare_data),
+            "supply": plot_supply(compare_data),
+            f"unit_supply_0": plot_unit_supply(compare_data, tagged_player_1),
+            f"unit_supply_1": plot_unit_supply(compare_data, tagged_player_2)
+        }
+
+        graphs = [
+            dcc.Graph(id="compare-collection-rates", figure=figures["collection_rates"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-workers-active", figure=figures["workers_active"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-income-advantage", figure=figures["income_advantage"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-resources-available", figure=figures["resources_available"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-army-value", figure=figures["army_value"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-tech-value", figure=figures["tech_value"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-supply", figure=figures["supply"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-unit-supply-0", figure=figures["unit_supply_0"], style={"margin-bottom": "20px"}),
+            dcc.Graph(id="compare-unit-supply-1", figure=figures["unit_supply_1"], style={"margin-bottom": "20px"})
+        ]
+
+        return html.Div(graphs, style={"width": "100%", "display": "flex", "flex-direction": "column"}), player_data_1, player_data_2
     except Exception as e:
         return html.Div(f"Error: {str(e)}"), None, None

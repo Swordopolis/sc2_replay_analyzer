@@ -58,7 +58,7 @@ def initialize_data_structures(replay):
             "food_made": [],
             "food_used": [],
             # Unit investment tracking (time, supply_count)
-            "unit_investment": {unit: [(0, 0)] for unit in unit_list},
+            "unit_investment": {unit: [(0, 0)] for unit in unit_list.keys()},
             # TODO: Placeholder for team affiliation (e.g., 1v1, 2v2)
             "team": None  # Will be set in future multi-player logic
         }
@@ -196,7 +196,7 @@ def parse_events(replay, player_data):
             if event.name == "PlayerStatsEvent":
                 handler(event, player_data)
             else:  # PlayerStatsEvent, UpgradeCompleteEvent
-                handler(event, player_data, unit_list)
+                handler(event, player_data, unit_list.keys())
     
     # Clean up unit_investment: remove units with no investment
     for player_name in player_data:

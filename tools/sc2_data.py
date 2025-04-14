@@ -21,7 +21,6 @@ costs = {
     "Raven": (100, 200, 2),
     "Battlecruiser": (400, 300, 6),
     "MULE": (0, 0, 0),
-
     # Terran Buildings
     "CommandCenter": (400, 0),
     "OrbitalCommand": (150, 0),
@@ -44,7 +43,6 @@ costs = {
     "BarracksReactor": (50, 50),
     "FactoryReactor": (50, 50),
     "StarportReactor": (50, 50),
-
     # Terran Upgrades
     "TerranInfantryWeaponsLevel1": (100, 100),
     "TerranInfantryWeaponsLevel2": (175, 175),
@@ -77,7 +75,6 @@ costs = {
     "HyperflightRotors": (150, 150),
     "WeaponRefit": (150, 150),
     "NeosteelFrame": (100, 100),
-
     # Protoss Units
     "Probe": (50, 0, 1),
     "Zealot": (100, 0, 2),
@@ -99,7 +96,6 @@ costs = {
     "Tempest": (250, 175, 5),
     "MothershipCore": (100, 100, 2),
     "Mothership": (400, 400, 8),
-
     # Protoss Buildings
     "Nexus": (400, 0),
     "Pylon": (100, 0),
@@ -116,7 +112,6 @@ costs = {
     "RoboticsBay": (150, 150),
     "Stargate": (150, 150),
     "FleetBeacon": (300, 200),
-
     # Protoss Upgrades
     "ProtossGroundWeaponsLevel1": (100, 100),
     "ProtossGroundWeaponsLevel2": (150, 150),
@@ -142,7 +137,6 @@ costs = {
     "ExtendedThermalLance": (150, 150),
     "AnionPulseCrystals": (150, 150),
     "FluxVanes": (100, 100),
-
     # Zerg Units
     "Larva": (0, 0, 0),
     "Drone": (50, 0, 1),
@@ -162,7 +156,6 @@ costs = {
     "Corruptor": (150, 100, 2),
     "Viper": (100, 200, 3),
     "BroodLord": (150, 150, 2),
-
     # Zerg Buildings
     "Hatchery": (300, 0),
     "Lair": (150, 100),
@@ -183,7 +176,6 @@ costs = {
     "SpineCrawler": (100, 0),
     "SporeCrawler": (75, 0),
     "CreepTumor": (0, 0),
-
     # Zerg Upgrades
     "ZergMeleeWeaponsLevel1": (100, 100),
     "ZergMeleeWeaponsLevel2": (150, 150),
@@ -275,20 +267,69 @@ morph_to_unit = {
     "BuildBanshee": "Banshee",
     "BuildRaven": "Raven",
     "BuildBattlecruiser": "Battlecruiser",
-    "TrainMULE": "MULE"
+    "TrainMULE": "MULE",
 }
 
 # List of only the unit names, used to keep track of unit investment
-unit_list = [
-    "SCV", "Marine", "Marauder", "Reaper", "Ghost", "Hellion", "Hellbat", "WidowMine", "Cyclone",
-    "SiegeTank", "Thor", "VikingFighter", "VikingAssault", "Medivac", "Liberator", "Banshee", "Raven",
-    "Battlecruiser", "MULE",
-    "Probe", "Zealot", "Stalker", "Sentry", "Adept", "HighTemplar", "DarkTemplar", "Archon", "Observer",
-    "WarpPrism", "Immortal", "Colossus", "Disruptor", "Phoenix", "VoidRay", "Oracle", "Carrier", "Tempest",
-    "MothershipCore", "Mothership",
-    "Larva", "Drone", "Overlord", "Overseer", "Queen", "Zergling", "Baneling", "Roach", "Ravager",
-    "Hydralisk", "Lurker", "Infestor", "SwarmHost", "Ultralisk", "Mutalisk", "Corruptor", "Viper", "BroodLord"
-]
+unit_list = {
+    "SCV": "darkblue",
+    "Marine": "blue",
+    "Marauder": "green",
+    "Reaper": "orange",
+    "Ghost": "purple",
+    "Hellion": "crimson",
+    "Hellbat": "crimson",
+    "WidowMine": "purple",
+    "Cyclone": "red",
+    "SiegeTank": "lightsalmon",
+    "Thor": "teal",
+    "VikingFighter": "gold",
+    "VikingAssault": "gold",
+    "Medivac": "silver",
+    "Liberator": "indigo",
+    "Banshee": "coral",
+    "Raven": "olive",
+    "Battlecruiser": "navy",
+    "MULE": "maroon",
+    "Probe": "darkblue",
+    "Zealot": "red",
+    "Stalker": "green",
+    "Sentry": "darkorange",
+    "Adept": "darkviolet",
+    "HighTemplar": "khaki",
+    "DarkTemplar": "lightpink",
+    "Archon": "lightblue",
+    "Observer": "lightgreen",
+    "WarpPrism": "lightcoral",
+    "Immortal": "lightsalmon",
+    "Colossus": "lightseagreen",
+    "Disruptor": "lightskyblue",
+    "Phoenix": "lightslategray",
+    "VoidRay": "teal",
+    "Oracle": "limegreen",
+    "Carrier": "mediumblue",
+    "Tempest": "mediumorchid",
+    "MothershipCore": "mediumpurple",
+    "Mothership": "mediumseagreen",
+    "Larva": "mediumslateblue",
+    "Drone": "darkblue",
+    "Overlord": "mediumturquoise",
+    "Overseer": "mediumvioletred",
+    "Queen": "limegreen",
+    "Zergling": "red",
+    "Baneling": "mistyrose",
+    "Roach": "lightsalmon",
+    "Ravager": "navajowhite",
+    "Hydralisk": "violet",
+    "Lurker": "orangered",
+    "Infestor": "orchid",
+    "SwarmHost": "palegoldenrod",
+    "Ultralisk": "palegreen",
+    "Mutalisk": "paleturquoise",
+    "Corruptor": "palevioletred",
+    "Viper": "papayawhip",
+    "BroodLord": "peachpuff",
+}
 
 relevant_events = {
     "PlayerStatsEvent": {
@@ -314,6 +355,5 @@ relevant_events = {
     },
     "UnitDiedEvent": {
         "notes": "Decrements unit investment when units die.",
-    }
+    },
 }
-
